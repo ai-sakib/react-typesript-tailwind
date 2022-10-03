@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import NewTodo from './components/NewTodo'
+import Todos from './components/Todos'
+import Person from './models/persons'
+
+const items = [new Person('sakib', 25), new Person('asif', 26)]
+
+const App = () => {
+    const [persons, setPersons] = useState<Person[]>(items)
+
+    const addNewTodoHandler = (name: string, age: number) => {
+        const newPerson = new Person(name, age)
+        setPersons(prevPersons => {
+            return prevPersons.concat(newPerson)
+        })
+    }
+    return (
+        <div>
+            <NewTodo onAddNewTodo={addNewTodoHandler} />
+            <Todos items={persons} />
+        </div>
+    )
 }
 
-export default App;
+export default App
